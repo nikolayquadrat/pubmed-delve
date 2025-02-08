@@ -26,25 +26,27 @@ n_papers_per_quarter <- data.frame(
     "n" = rep(NA, length(journals) * (length(dates)))
 )
 
-for (j in names(journals)) {
-    for (d in dates) {
-        Sys.sleep(1)
-        pmc_common <- "https://www.ncbi.nlm.nih.gov/pmc?term"
-        journal_string = sprintf('("%s"[Journal])', journals[[j]])
-        date_string = sprintf('("%s"[Publication Date]:"%s"[Publication Date])',
-                              gsub("-", "/", ymd(d) %m-% months(3) %m+% days(1)),
-                              gsub("-", "/", ymd(d))
-        )
-        url <- sprintf("%s=%sAND%s", pmc_common, journal_string, date_string)
-        url <- gsub("\\s+", "%20", url)
-        webpage <- read_html(url)
-        counter_text <- webpage %>% html_nodes(xpath = '//*[@id="maincontent"]/div/div[3]/div[1]/h3') %>% html_text()
-        cat(j, "\t", as.character(ymd(d)), "\t", sub(".*?(\\d+)$", "\\1", counter_text), "\n")
-        n_paper_per_period <- as.numeric(sub("Items: 1 to \\d+ of (\\d+)", "\\1", counter_text))
-        n_papers_per_quarter$n[n_papers_per_quarter$journal == j & n_papers_per_quarter$date == d] <- n_paper_per_period
+if (!file.exists("./data/fetched/n_papers_per_quarter.txt")) {
+    for (j in names(journals)) {
+        for (d in dates) {
+            Sys.sleep(1)
+            pmc_common <- "https://www.ncbi.nlm.nih.gov/pmc?term"
+            journal_string = sprintf('("%s"[Journal])', journals[[j]])
+            date_string = sprintf('("%s"[Publication Date]:"%s"[Publication Date])',
+                                  gsub("-", "/", ymd(d) %m-% months(3) %m+% days(1)),
+                                  gsub("-", "/", ymd(d))
+            )
+            url <- sprintf("%s=%sAND%s", pmc_common, journal_string, date_string)
+            url <- gsub("\\s+", "%20", url)
+            webpage <- read_html(url)
+            counter_text <- webpage %>% html_nodes(xpath = '//*[@id="maincontent"]/div/div[3]/div[1]/h3') %>% html_text()
+            cat(j, "\t", as.character(ymd(d)), "\t", sub(".*?(\\d+)$", "\\1", counter_text), "\n")
+            n_paper_per_period <- as.numeric(sub("Items: 1 to \\d+ of (\\d+)", "\\1", counter_text))
+            n_papers_per_quarter$n[n_papers_per_quarter$journal == j & n_papers_per_quarter$date == d] <- n_paper_per_period
+        }
     }
+    write.table(n_papers_per_quarter, "./data/fetched/n_papers_per_quarter.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 }
-write.table(n_papers_per_quarter, "./data/fetched/n_papers_per_quarter.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
 # get random PMC paper ids per period=======
 safe_read_term_from_entrez <- function(term_string, max_retries = 10, delay = 10) {
