@@ -1,6 +1,6 @@
 # aggregate the results and draw pictures
 rm(list = ls())
-sapply(c("dplyr", "ggplot2"), function(pkg) if (!require(pkg, character.only = TRUE)) {
+sapply(c("dplyr", "tidyr", "ggplot2"), function(pkg) if (!require(pkg, character.only = TRUE)) {
     install.packages(pkg, dependencies = TRUE)
     library(pkg, character.only = TRUE)
 })
