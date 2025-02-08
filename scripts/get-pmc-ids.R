@@ -32,7 +32,7 @@ for (j in names(journals)) {
         pmc_common <- "https://www.ncbi.nlm.nih.gov/pmc?term"
         journal_string = sprintf('("%s"[Journal])', journals[[j]])
         date_string = sprintf('("%s"[Publication Date]:"%s"[Publication Date])',
-                              gsub("-", "/", as.Date(d) %m-% months(3) %m+% days(1)),
+                              gsub("-", "/", ymd(d) %m-% months(3) %m+% days(1)),
                               gsub("-", "/", as.Date(d))
         )
         url <- sprintf("%s=%sAND%s", pmc_common, journal_string, date_string)
@@ -73,11 +73,11 @@ for (j in names(journals)) {
         for (m in 3:1) {
             for (w in 0:3) {
                 Sys.sleep(1)
-                date_start <- as.Date(d) %m-% months(m) %m+% weeks(w) %m+% days(1)
+                date_start <- ymd(d) %m-% months(m) %m+% weeks(w) %m+% days(1)
                 if (w != 3) {
-                    date_end <- as.Date(d) %m-% months(m) %m+% weeks(w + 1)
+                    date_end <- ymd(d) %m-% months(m) %m+% weeks(w + 1)
                 } else {
-                    date_end <- as.Date(d) %m-% months(m - 1)
+                    date_end <- ymd(d) %m-% months(m - 1)
                 }
                 date_string = sprintf('("%s"[Publication Date]:"%s"[Publication Date])',
                                       gsub("-", "/", date_start),
