@@ -1,6 +1,6 @@
 # script fetches xml for a list of PMC ids and for each of them calculates incidence of a given word 
 rm(list = ls())
-sapply(c("dplyr", "purrr", "rentrez", "xml2", "beepr"), function(pkg) if (!require(pkg, character.only = TRUE)) {
+sapply(c("dplyr", "purrr", "rentrez", "xml2"), function(pkg) if (!require(pkg, character.only = TRUE)) {
     install.packages(pkg, dependencies = TRUE)
     library(pkg, character.only = TRUE)
 })
@@ -90,4 +90,4 @@ for(j in sort(names(journals))) {
     }
 }
 
-beepr::beep(sound = 4)
+# beepr::beep(sound = 4)

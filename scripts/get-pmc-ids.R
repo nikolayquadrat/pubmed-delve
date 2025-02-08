@@ -1,6 +1,6 @@
 # script collects PMC ids for a given list of journals and dates
 rm(list = ls())
-sapply(c("lubridate", "rentrez", "beepr"), function(pkg) if (!require(pkg, character.only = TRUE)) {
+sapply(c("lubridate", "rentrez"), function(pkg) if (!require(pkg, character.only = TRUE)) {
     install.packages(pkg, dependencies = TRUE)
     library(pkg, character.only = TRUE)
 })
@@ -122,4 +122,4 @@ for (j in names(journals)) {
 }
 write.table(pmc_ids_df, "./data/fetched/pmc_ids.txt", sep = "\t", row.names = FALSE, quote = FALSE)
 
-beepr::beep(sound = 4)
+# beepr::beep(sound = 4)
