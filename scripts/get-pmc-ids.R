@@ -1,6 +1,6 @@
 # script collects PMC ids for a given list of journals and dates
 rm(list = ls())
-sapply(c("lubridate", "rentrez", "xml2"), function(pkg) if (!require(pkg, character.only = TRUE)) {
+sapply(c("lubridate", "rentrez", "xml2", "dplyr"), function(pkg) if (!require(pkg, character.only = TRUE)) {
     install.packages(pkg, dependencies = TRUE)
     library(pkg, character.only = TRUE)
 })
