@@ -20,6 +20,19 @@ if (!dir.exists("./data/fetched")) {
 }
 
 # get number of papers per quarter for a journal======
+safe_read_url_from_entrez <- function(url, max_retries = 10, delay = 10) {
+    for (i in 1:max_retries) {
+        tryCatch({
+            webpage <- read_html(url)
+            return(webpage)
+        }, error = function(e) {
+            message(sprintf("Attempt %d failed. Retrying in %d seconds...", i, delay))
+            Sys.sleep(delay)  # Wait for the specified delay before retrying
+        })
+    }
+    stop("Failed to fetch the webpage after ", max_retries, " attempts.")
+}
+
 n_papers_per_quarter <- data.frame(
     "journal" = rep(names(journals), length(dates)),
     "date" = sort(rep(dates, length(journals))),
@@ -29,7 +42,7 @@ n_papers_per_quarter <- data.frame(
 if (!file.exists("./data/fetched/n_papers_per_quarter.txt")) {
     for (j in names(journals)) {
         for (d in dates) {
-            Sys.sleep(1)
+            Sys.sleep(2)
             pmc_common <- "https://www.ncbi.nlm.nih.gov/pmc?term"
             journal_string = sprintf('("%s"[Journal])', journals[[j]])
             date_string = sprintf('("%s"[Publication Date]:"%s"[Publication Date])',
@@ -38,7 +51,7 @@ if (!file.exists("./data/fetched/n_papers_per_quarter.txt")) {
             )
             url <- sprintf("%s=%sAND%s", pmc_common, journal_string, date_string)
             url <- gsub("\\s+", "%20", url)
-            webpage <- read_html(url)
+            webpage <- safe_read_url_from_entrez(url)
             counter_text <- webpage %>% html_nodes(xpath = '//*[@id="maincontent"]/div/div[3]/div[1]/h3') %>% html_text()
             cat(j, "\t", as.character(ymd(d)), "\t", sub(".*?(\\d+)$", "\\1", counter_text), "\n")
             n_paper_per_period <- as.numeric(sub("Items: 1 to \\d+ of (\\d+)", "\\1", counter_text))
@@ -63,7 +76,7 @@ safe_read_term_from_entrez <- function(term_string, max_retries = 10, delay = 10
 }
 pmc_ids_df <- data.frame(
     "journal" = character(),
-    "date" = character(),
+    "date" = ymd(),
     "pmc_id" = character()
 )
 
