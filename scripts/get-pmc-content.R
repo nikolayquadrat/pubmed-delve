@@ -16,8 +16,7 @@ if (0) { # test
 words_df <- read.table("./data/words.txt", sep="\t", header=FALSE, stringsAsFactors=FALSE)
 words <- setNames(words_df$V2, words_df$V1)
 
-pmc_ids_df <- read.table("./data/fetched/pmc_ids.txt", sep="\t", header=TRUE, stringsAsFactors=FALSE) %>% 
-    distinct(pmc_id, .keep_all = TRUE)
+pmc_ids_df <- read.table("./data/fetched/pmc_ids.txt", sep="\t", header=TRUE, stringsAsFactors=FALSE)
 pmc_ids_df$Nchars <- NA
 pmc_ids_df$Nwords <- NA
 pmc_ids_df$text <- NA
