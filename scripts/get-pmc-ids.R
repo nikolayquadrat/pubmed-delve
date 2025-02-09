@@ -134,14 +134,14 @@ for (j in names(journals)) {
                 ))
             }
         }
-        cat("Portion of duplicated PMC IDs = %.3f for the journal %s\n", length(unique(pmc_ids_journal_df$pmc_id))/dim(pmc_ids_journal_df)[1], j)
+    cat(sprintf("Portion of duplicated PMC IDs = %.4f for %s\n", (dim(pmc_ids_journal_df)[1] - length(unique(pmc_ids_journal_df$pmc_id)))/dim(pmc_ids_journal_df)[1], j))
         pmc_ids_journal_df <- pmc_ids_journal_df %>% distinct(pmc_id, .keep_all = TRUE)
         write.table(pmc_ids_journal_df, sprintf("./data/fetched/pmc_ids_raw/pmc_ids_%s.txt", j), sep = "\t", row.names = FALSE, quote = FALSE)
     }
 }
 
 pmc_ids_files <- list.files(path = "./data/fetched/pmc_ids_raw", full.names = TRUE)
-pmc_ids_df_list <- lapply(result_files, read.delim)
+pmc_ids_df_list <- lapply(pmc_ids_files, read.delim)
 pmc_ids_df <- bind_rows(pmc_ids_df_list)
 cat("Portion of duplicated PMC IDs = %.3f accross all journals\n", length(unique(pmc_ids_df$pmc_ids))/dim(pmc_ids_df)[1], j)
 pmc_ids_df <- pmc_ids_df %>% distinct(pmc_id, .keep_all = TRUE)
