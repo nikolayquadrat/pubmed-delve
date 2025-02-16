@@ -146,5 +146,4 @@ pmc_ids_df <- bind_rows(pmc_ids_df_list)
 cat("Portion of duplicated PMC IDs = %.3f accross all journals\n", length(unique(pmc_ids_df$pmc_ids))/dim(pmc_ids_df)[1], j)
 pmc_ids_df <- pmc_ids_df %>% distinct(pmc_id, .keep_all = TRUE)
 write.table(pmc_ids_df, "./data/fetched/pmc_ids.txt", sep = "\t", row.names = FALSE, quote = FALSE)
-
 # beepr::beep(sound = 4)
