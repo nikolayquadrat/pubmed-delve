@@ -31,11 +31,11 @@ papers_by_journal_per_date <- result %>%
 # Consistent colors=======
 if (length(unique(papers_by_journal_per_date$journal)) <= 32) {
     # based on: cat(Seurat::DiscretePalette(32, palette = "glasbey"), sep="\", \"")
-    journal_colors <- c("#0000FF", "#FF0000", "#1F9698", "#000033", "#FF00B6", "#005300", "#FE8F42",
-                        "#009FFF", "#9A4D42", "#00FFBE", "#783FC1", "#DC5E93", "#FFACFD", "#B1CC71",
-                        "#F1085C", "#FFD300", "#DD00FF", "#201A01", "#720055", "#766C95", "#02AD24",
-                        "#00FF00", "#886C00", "#FFB79F", "#858567", "#A10300", "#14F9FF", "#00479E",
-                        "#C8FF00", "#93D4FF", "#004CFF", "#F2F318")
+    journal_colors <- c("#93D4FF", "#FE8F42", "#40E0D0", "#766C95", "#B1CC71", "#FFACFD", "#FF0000",
+                        "#02AD24", "#FFD300", "#00479E", "#783FC1", "#DC5E93", "#009FFF", "#005300",
+                        "#F1085C", "#201A01", "#DD00FF", "#000033", "#720055", "#9A4D42", "#FF00B6",
+                        "#00FF00", "#886C00", "#FFB79F", "#858567", "#A10300", "#14F9FF", "#0000FF",
+                        "#C8FF00", "#004CFF", "#F2F318", "#00FFBE")
     journal_colors <- journal_colors[1:length(unique(papers_by_journal_per_date$journal))]
     names(journal_colors) <- unique(papers_by_journal_per_date$journal)
 } else {
@@ -95,9 +95,9 @@ ggplot(data = n_papers_df,
                aes(x = gpt3.5_date,
                    y = max(n),
                    label = "GPT3.5"), 
-               fill =  "grey95", color = "black", size = 2.5, angle = 90)+
+               fill =  "grey95", color = "black", size = 2.5, angle = 90, label.size = 0)+
     labs(x = "Date", y = "N papers per 3 month period")
-ggsave("./images/n_papers_over_time.png", width = 800, height = 500, units = "px", dpi = 100)
+ggsave("./images/n_papers_over_time.png", width = 800, height = 550, units = "px", dpi = 100)
 
 # Simple incidence over time plot=======
 incidence_prob <- result %>% 
@@ -124,9 +124,9 @@ if ("delve" %in% incidence_prob$word) {
                    aes(x = gpt3.5_date,
                        y = max(incidence_prob$prob_paper_with_word[incidence_prob$word == "delve"]),
                        label = "GPT3.5"), 
-                   fill =  "grey95", color = "black", size = 2.5, angle = 90)+
+                   fill =  "grey95", color = "black", size = 2.5, angle = 90, label.size = 0)+
         labs(x = "Date", y = "Portion of papers with the word over a 3 month period")
-    ggsave("./images/incidence_prob_delve.png", width = 800, height = 500, units = "px", dpi = 100)
+    ggsave("./images/incidence_prob_delve.png", width = 800, height = 550, units = "px", dpi = 100)
 }
 
 ggplot(incidence_prob %>% 
@@ -141,7 +141,7 @@ ggplot(incidence_prob %>%
     geom_vline(xintercept = as.numeric(c(gpt3.5_date)), lty = "dotted", color = "black")+
     facet_wrap(~ word, scales = "free_y")+
     labs(x = "Date", y = "Portion of papers with the word over a 3 month period")
-ggsave("./images/incidence_prob.png", width = 1000, height = 700, units = "px", dpi = 100)
+ggsave("./images/incidence_prob.png", width = 1200, height = 550, units = "px", dpi = 100)
 
 # Normalised appearance of a word time plot=======
 normalised_prob <- result %>% 
@@ -180,9 +180,9 @@ if ("delve" %in% normalised_prob$word) {
                    aes(x = gpt3.5_date,
                        y = max(normalised_prob$prob_paper_with_word[normalised_prob$word == "delve"]),
                        label = "GPT3.5"), 
-                   fill =  "grey95", color = "black", size = 2.5, angle = 90)+
+                   fill =  "grey95", color = "black", size = 2.5, angle = 90, label.size = 0)+
         labs(x = "Date", y = "Normalised N words per journal over a 3 month period")
-    ggsave("./images/normalised_prob_delve.png", width = 800, height = 500, units = "px", dpi = 100)
+    ggsave("./images/normalised_prob_delve.png", width = 800, height = 550, units = "px", dpi = 100)
 }
 
 ggplot(normalised_prob %>% 
@@ -197,5 +197,52 @@ ggplot(normalised_prob %>%
     geom_vline(xintercept = as.numeric(c(gpt3.5_date)), lty = "dotted", color = "black")+
     facet_wrap(~ word, scales = "free_y")+
     labs(x = "Date", y = "Portion of papers with the word over a 3 month period")
-ggsave("./images/normalised_prob.png", width = 1000, height = 700, units = "px", dpi = 100)
+ggsave("./images/normalised_prob.png", width = 1200, height = 550, units = "px", dpi = 100)
+
+# Delve winners plot=====
+if ("delve" %in% names(result)) {
+    papers_by_journal_per_period <- result %>% 
+        filter(Nchars > Nchars_threshold) %>%
+        mutate(period = case_when(
+            as.Date(date) < gpt3.5_date ~ "pre_gpt",
+            as.Date(date) >= gpt3.5_date ~ "post_gpt",
+            TRUE ~ "other"
+        )) %>% 
+        filter(period != "other") %>% 
+        group_by(journal, period) %>% 
+        summarise(n_papers = n(), sum_chars = sum(Nchars), .groups = "keep") %>% 
+        ungroup()
+    
+    delve_winners <- result %>% 
+        filter(Nchars > Nchars_threshold) %>%
+        select(-Nwords, -pmc_id) %>% 
+        pivot_longer(-c(journal, date, Nchars), names_to = "word", values_to = "n") %>% 
+        mutate(incidence = ifelse(n > 0, 1, 0)) %>% 
+        filter(word == "delve") %>% 
+        dplyr::select(-word) %>% 
+        mutate(period = case_when(
+            as.Date(date) < gpt3.5_date ~ "pre_gpt",
+            as.Date(date) >= gpt3.5_date ~ "post_gpt",
+            TRUE ~ "other"
+        )) %>% 
+        filter(period != "other") %>% 
+        group_by(journal, period) %>% 
+        summarise(incidence_per_period = sum(incidence), .groups = "keep") %>% 
+        ungroup() %>% 
+        left_join(papers_by_journal_per_period, by = c("journal", "period")) %>% 
+        mutate(prob_paper_with_word = incidence_per_period/n_papers) %>%
+        dplyr::select(-n_papers, -incidence_per_period, -sum_chars) %>% 
+        pivot_wider(names_from = period, values_from = prob_paper_with_word) %>% 
+        mutate(excess = post_gpt - pre_gpt) %>% 
+        arrange(excess)
+    
+    delve_winners$journal <- factor(delve_winners$journal, levels = delve_winners$journal)
+    ggplot(data = delve_winners %>% arrange(excess),
+           aes(x = excess, y = journal, fill = journal))+
+        geom_col()+
+        scale_fill_manual(values = journal_colors)+
+        labs(x = "Incidence Excess")+
+        theme(legend.position = "none")
+    ggsave("./images/delve_incidence_excess.png", width = 800, height = 500, units = "px", dpi = 100)
+}
 
