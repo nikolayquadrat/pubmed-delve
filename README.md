@@ -10,7 +10,7 @@ Incidence (whether a paper has "delve"):
 
 Delve counts per paper, normalised on the paper's length.
 
-<img src="images/mormalised_prob_delve.png" alt="Delve counts per paper" width="70%">
+<img src="images/normalised_prob_delve.png" alt="Delve counts per paper" width="70%">
 
 ### Other similar words do not behave like this
 Incidence
