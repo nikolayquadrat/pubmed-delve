@@ -31,11 +31,11 @@ papers_by_journal_per_date <- result %>%
 # Consistent colors=======
 if (length(unique(papers_by_journal_per_date$journal)) <= 32) {
     # based on: cat(Seurat::DiscretePalette(32, palette = "glasbey"), sep="\", \"")
-    journal_colors <- c("#93D4FF", "#FE8F42", "#40E0D0", "#766C95", "#B1CC71", "#FFACFD", "#FF0000",
-                        "#02AD24", "#FFD300", "#00479E", "#783FC1", "#DC5E93", "#009FFF", "#005300",
+    journal_colors <- c("#93D4FF", "#FE8F42", "#40E0D0", "#766C95", "#B1CC71", "#858567", "#FF0000",
+                        "#02AD24", "#FFD300", "#3d608d", "#783FC1", "#DC5E93", "#009FFF", "#005300",
                         "#F1085C", "#201A01", "#DD00FF", "#000033", "#720055", "#9A4D42", "#FF00B6",
                         "#00FF00", "#886C00", "#FFB79F", "#858567", "#A10300", "#14F9FF", "#0000FF",
-                        "#C8FF00", "#004CFF", "#F2F318", "#00FFBE")
+                        "#C8FF00", "#004CFF", "#F2F318", "#00FFBE", "#FFACFD")
     journal_colors <- journal_colors[1:length(unique(papers_by_journal_per_date$journal))]
     names(journal_colors) <- unique(papers_by_journal_per_date$journal)
 } else {
@@ -181,7 +181,7 @@ if ("delve" %in% normalised_prob$word) {
                        y = max(normalised_prob$prob_paper_with_word[normalised_prob$word == "delve"]),
                        label = "GPT3.5"), 
                    fill =  "grey95", color = "black", size = 2.5, angle = 90, label.size = 0)+
-        labs(x = "Date", y = "Normalised N words per journal over a 3 month period")
+        labs(x = "Date", y = "Normalised N words over a 3 month period")
     ggsave("./images/normalised_prob_delve.png", width = 800, height = 550, units = "px", dpi = 100)
 }
 
@@ -241,7 +241,7 @@ if ("delve" %in% names(result)) {
            aes(x = excess, y = journal, fill = journal))+
         geom_col()+
         scale_fill_manual(values = journal_colors)+
-        labs(x = "Incidence Excess")+
+        labs(x = "Incidence Excess", y = "")+
         theme(legend.position = "none")
     ggsave("./images/delve_incidence_excess.png", width = 800, height = 500, units = "px", dpi = 100)
 }

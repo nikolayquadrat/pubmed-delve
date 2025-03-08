@@ -27,7 +27,7 @@ safe_read_url_from_entrez <- function(url, max_retries = 10, delay = 10) {
             return(webpage)
         }, error = function(e) {
             message(sprintf("Attempt %d failed. Retrying in %d seconds...", i, delay))
-            Sys.sleep(delay)  # Wait for the specified delay before retrying
+            Sys.sleep(delay)
         })
     }
     stop("Failed to fetch the webpage after ", max_retries, " attempts.")

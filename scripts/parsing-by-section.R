@@ -60,7 +60,7 @@ xpaths = c(
     "sa3" = "/pmc-articleset/article/sub-article[@id='sa3']/body",
     "sa4" = "/pmc-articleset/article/sub-article[@id='sa4']/body",
     "sa5" = "/pmc-articleset/article/sub-article[@id='sa5']/body",
-    "sa6" = "/pmc-articleset/article/sub-article[@id='sa6']/body" # sa6 is probably does not exist (that would be five review rounds), just in case
+    "sa6" = "/pmc-articleset/article/sub-article[@id='sa6']/body" # sa6 probably does not exist (that would be five review rounds), just in case
 )
 
 words_df <- read.table("./data/words.txt", sep="\t", header=FALSE, stringsAsFactors=FALSE)
@@ -208,7 +208,7 @@ ggplot(sections_data[sections_data$word == "delve", ],
     labs(x = "Date", y = "Probability to find the word in the section", colour = "Paper Section")
 ggsave("./images/elife_sections_delve.png", width = 800, height = 550, units = "px", dpi = 100)
 
-# Way to investigate a paper hierarchy=======
+# Way to investigate a paper's sections hierarchy=======
 if (0) { 
     find_parent_hierarchy <- function(node) {
         parents <- c()  # Store parent names

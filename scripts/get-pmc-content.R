@@ -28,10 +28,10 @@ safe_read_from_entrez <- function(pmc_id, max_retries = 10, delay = 10) {
         tryCatch({
             full_text_xml <- entrez_fetch(db = "pmc", id = sprintf("PMC%s", pmc_id), rettype = "full", retmode = "xml")
             xml_content <- read_xml(full_text_xml)
-            return(as.character(xml_content))  # Exit the function if successful
+            return(as.character(xml_content))
         }, error = function(e) {
             message(sprintf("Attempt %d failed. Retrying in %d seconds...", i, delay))
-            Sys.sleep(delay)  # Wait for the specified delay before retrying
+            Sys.sleep(delay)
         })
     }
     stop("Failed to fetch the webpage after ", max_retries, " attempts.")
