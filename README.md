@@ -5,7 +5,8 @@ This repository contains a collection of scripts to reproduce the observed incre
 The usage of "delve" has risen sharply and unevenly across journals. The recent decline aligns with observations in arXiv papers (Geng & Trotta 2025).
 
 Incidence (whether a paper has "delve"):
-<img src="images/incidence_prob_delve.png" alt="Incidence (delve)" width="60%">
+
+<img src="images/incidence_prob_delve.png" alt="Incidence (delve)" width="70%">
 
 Delve counts per paper, normalised on the paper's length.
 ![Delve counts per paper](images/normalised_prob_delve.png)
