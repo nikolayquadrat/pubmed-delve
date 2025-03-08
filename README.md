@@ -9,28 +9,35 @@ Incidence (whether a paper has "delve"):
 <img src="images/incidence_prob_delve.png" alt="Incidence (delve)" width="70%">
 
 Delve counts per paper, normalised on the paper's length.
-![Delve counts per paper](images/normalised_prob_delve.png)
+
+<img src="images/mormalised_prob_delve.png" alt="Delve counts per paper" width="70%">
 
 ### Other similar words do not behave like this
 Incidence
-![Incidence (other words)](images/incidence_prob.png)
+
+<img src="images/incidence_prob.png" alt="Incidence (all)" width="70%">
 
 Normalised word count
-![Count (other words)](images/normalised_prob.png)
+
+<img src="images/normalised_prob.png" alt="Count (all)" width="70%">
 
 ### Ranking of tested journals by the "delving excess"
 The ranking is not too surprising, though it is somewhat unexpected to see PLoS One on the same level as the Frontiers journals and Scientific Reports on the same level as the MDPI jornals.
-![Ranking](images/delve_incidence_excess.png)
+
+<img src="images/delve_incidence_excess.png" alt="Ranking" width="70%">
+
 Note: These rankings do not necessarily reflect the quality of a journal since the LLM usage could be a benign proofreading, among other things.
 
 ### Delving by paper section for Elife
 [Elife journal](https://elifesciences.org/) employs a mandatory open-review model, allowing for a comparison of "delving" in reviews and authors' responses. Ironically, eLife's "delving excess" primarily originates from these sections.
-![Elife (delve)](images/elife_sections_delve.png)
-![Elife (all)](images/elife_sections_all.png)
+
+<img src="images/elife_sections_delve.png" alt="Elife (delve)" width="70%">
+<img src="images/elife_sections_all.png" alt="Elife (all)" width="70%">
 
 ### Supplementary: number of publish papers for the time period
 The Helion's sudden growth of published papers is clearly seen and was supposedly one of the causes for WoS to pause it's indexing last year.
-![papers per period](images/n_papers_over_time.png)
+
+<img src="images/n_papers_over_time.png" alt="n papers" width="70%">
 
 ## References
 Liang, Weixin, Yaohui Zhang, Zhengxuan Wu, Haley Lepp, Wenlong Ji, Xuandong Zhao, Hancheng Cao, et al. 2024.
