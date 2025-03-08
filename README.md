@@ -5,31 +5,31 @@ This repository contains a collection of scripts to reproduce the observed incre
 The usage of "delve" has risen sharply and unevenly across journals. The recent decline aligns with observations in arXiv papers (Geng & Trotta 2025).
 
 Incidence (whether a paper has "delve"):
-[Incidence (delve)](images/incidence_prob_delve.png)
+![Incidence (delve)](images/incidence_prob_delve.png)
 
 Delve counts per paper, normalised on the paper's length.
-[Delve counts per paper](images/normalised_prob_delve.png)
+![Delve counts per paper](images/normalised_prob_delve.png)
 
 ### Other similar words do not behave like this
 Incidence
-[Incidence (other words)](images/incidence_prob.png)
+![Incidence (other words)](images/incidence_prob.png)
 
 Normalised word count
-[Count (other words)](images/normalised_prob.png)
+![Count (other words)](images/normalised_prob.png)
 
 ### Ranking of tested journals by the "delving excess"
 The ranking is not too surprising, though it is somewhat unexpected to see PLoS One on the same level as the Frontiers journals and Scientific Reports on the same level as the MDPI jornals.
-[Ranking](images/delve_incidence_excess.png)
+![Ranking](images/delve_incidence_excess.png)
 Note: These rankings do not necessarily reflect the quality of a journal since the LLM usage could be a benign proofreading, among other things.
 
 ### Delving by paper section for Elife
 [Elife journal](https://elifesciences.org/) employs a mandatory open-review model, allowing for a comparison of "delving" in reviews and authors' responses. Ironically, eLife's "delving excess" primarily originates from these sections.
-[Elife (delve)](images/elife_sections_delve.png)
-[Elife (all)](images/elife_sections_all.png)
+![Elife (delve)](images/elife_sections_delve.png)
+![Elife (all)](images/elife_sections_all.png)
 
 ### Supplementary: number of publish papers for the time period
 The Helion's sudden growth of published papers is clearly seen and was supposedly one of the causes for WoS to pause it's indexing last year.
-[papers per period](images/n_papers_over_time.png)
+![papers per period](images/n_papers_over_time.png)
 
 ## References
 Liang, Weixin, Yaohui Zhang, Zhengxuan Wu, Haley Lepp, Wenlong Ji, Xuandong Zhao, Hancheng Cao, et al. 2024.
@@ -71,8 +71,7 @@ source("scripts/get-pmc-content.R") # fetches xml for a list of PMC ids and for 
 source("scripts/aggregate-and-report.R") # aggregates the results and draw pictures
 source("scripts/parsing-by-section.R") # additional script for the Elife's sections
 ```
-
-Note that might need to run these commands on Linux machines to work with the xml2 package:
+Note that it might be necessary to run these commands on Linux machines to work with the xml2 package:
 ```sh
 sudo apt update
 sudo apt install -y libcurl4-openssl-dev libssl-dev libxml2-dev
