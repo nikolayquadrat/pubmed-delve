@@ -35,7 +35,7 @@ Note: These rankings do not necessarily reflect the quality of a journal since t
 <img src="images/elife_sections_all.png" alt="Elife (all)" width="70%">
 
 ### Supplementary: number of publish papers for the time period
-The Helion's sudden growth of published papers is clearly seen and was supposedly one of the causes for WoS to pause it's indexing last year.
+The Helyion's sudden growth of published papers is clearly seen and was supposedly one of the causes for WoS to pause it's indexing last year.
 
 <img src="images/n_papers_over_time.png" alt="n papers" width="70%">
 
